@@ -1,19 +1,13 @@
 .page {
   min-height: 100vh;
-  padding: 48px clamp(24px, 4vw, 72px) 64px;
+  padding: 0;
   position: relative;
   overflow: hidden;
+  background: #ffffff;
 }
 
 .backdrop {
-  position: absolute;
-  inset: -20% -15% auto -10%;
-  height: 520px;
-  background: radial-gradient(circle at 15% 30%, #f7c89a 0, transparent 55%),
-    radial-gradient(circle at 60% 10%, #c4ecec 0, transparent 45%),
-    radial-gradient(circle at 85% 40%, #d8d5ff 0, transparent 60%);
-  opacity: 0.7;
-  z-index: 0;
+  display: none;
 }
 
 .titleBar {
@@ -22,10 +16,10 @@
   display: flex;
   justify-content: center;
   width: 100%;
-  padding: 14px 20px;
+  padding: 20px 20px 12px;
   margin-bottom: 0;
-  background: rgba(255, 255, 255, 0.9);
-  border-bottom: 1px solid rgba(19, 19, 19, 0.08);
+  background: transparent;
+  border-bottom: none;
 }
 
 .title {
@@ -44,21 +38,23 @@
   z-index: 1;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  gap: 32px;
+  align-items: stretch;
+  gap: 0;
+  min-height: 100vh;
 }
 
 .chatPanel {
-  min-height: 760px;
-  width: min(900px, 100%);
+  min-height: 100vh;
+  width: min(920px, 100%);
+  max-width: 920px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 16px;
-  background: var(--surface);
-  border-radius: 16px;
-  box-shadow: var(--shadow);
+  background: #ffffff;
+  border-radius: 0;
+  box-shadow: none;
   overflow: hidden;
 }
 

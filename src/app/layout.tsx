@@ -13,8 +13,8 @@ const jetBrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Copilot Studio Web Chat",
-  description: "Custom Microsoft Web Chat UI built with Next.js",
+  title: "파트너포탈 챗봇",
+  description: "파트너포탈 문의대응용 챗봇입니다.",
 };
 
 export default function RootLayout({

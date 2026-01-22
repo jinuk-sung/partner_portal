@@ -264,6 +264,49 @@ export default function WebChat() {
         .webchat__send-box-text-box {
           padding: 12px 14px;
           min-height: 30px;
+          background: #ffffff;
+         
+        }
+
+        .webchat__send-box {
+          background: #ffffff;
+          border: 1px solid rgba(17, 17, 17, 0.12);
+          border-radius: 16px;
+          padding: 6px 10px;
+        }
+
+        .webchat__send-box__main {
+          background: #ffffff;
+          
+        }
+
+        [class^="webchat--css-"] .webchat__send-box__main,
+        [class*=" webchat--css-"] .webchat__send-box__main {
+          border-top: none !important;
+          background: #ffffff !important;
+        }
+
+        .webchat__send-box-text-box__input {
+          background: #ffffff;
+          border: none;
+          box-shadow: none;
+        }
+
+        .webchat__send-box__button {
+          border-radius: 12px;
+          border: none;
+          box-shadow: none;
+        }
+
+        .webchat__icon-button__shade {
+          background: #ffffff;
+          border: none;
+          box-shadow: none;
+        }
+
+        .webchat__icon-button {
+          border: none;
+          box-shadow: none;
         }
 
         /* 텍스트 가독성 */
