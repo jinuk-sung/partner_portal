@@ -121,7 +121,6 @@ export async function POST(request: Request) {
   });
 
   const datum = await response.json()
-  console.log(datum)
 
   if (!response.ok) {
     return NextResponse.json(

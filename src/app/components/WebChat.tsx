@@ -7,9 +7,6 @@ import styles from "./WebChat.module.css";
 const WEBCHAT_CDN =
   "https://cdn.botframework.com/botframework-webchat/latest/webchat.js";
 
-const TYPING_DELAY_MS = 20000;
-const TYPING_INTERVAL_MS = 4000;
-
 type DirectLineTokenResponse = {
   token: string;
   domain?: string;
@@ -36,20 +33,6 @@ export default function WebChat() {
       return;
     }
 
-    let typingIntervalId: number | null = null;
-
-    const clearTypingInterval = () => {
-      if (typingIntervalId !== null) {
-        window.clearInterval(typingIntervalId);
-        typingIntervalId = null;
-      }
-    };
-
-    const typingActivity = () => ({
-      type: "typing",
-      from: { role: "bot" },
-    });
-
     const init = async () => {
       try {
         setStatus("connecting");
@@ -75,7 +58,7 @@ export default function WebChat() {
           backgroundColor: "transparent",
           bubbleNubSize: 0,
           bubbleBackground: "#E5E5EA",
-          bubbleBorderColor: "rgba(60, 60, 67, 0.12)",
+          // bubbleBorderColor: "rgba(60, 60, 67, 0.12)",
           bubbleBorderRadius: 18,
           bubbleTextColor: "#020201",
           bubbleFromUserBackground: "#0A84FF",
@@ -103,60 +86,7 @@ export default function WebChat() {
           fontWeight: "500",
         };
 
-        const store = window.WebChat.createStore(
-          {},
-          ({ dispatch }) =>
-            (next) =>
-            (action) => {
-              if (action?.type === "WEB_CHAT/SEND_MESSAGE") {
-                const startTime = Date.now();
-                clearTypingInterval();
-                dispatch({
-                  type: "DIRECT_LINE/INCOMING_ACTIVITY",
-                  payload: { activity: typingActivity() },
-                  meta: { delayed: true, injected: true },
-                });
-                typingIntervalId = window.setInterval(() => {
-                  if (Date.now() - startTime >= TYPING_DELAY_MS) {
-                    clearTypingInterval();
-                    return;
-                  }
-                  dispatch({
-                    type: "DIRECT_LINE/INCOMING_ACTIVITY",
-                    payload: { activity: typingActivity() },
-                    meta: { delayed: true, injected: true },
-                  });
-                }, TYPING_INTERVAL_MS);
-              }
-
-              if (
-                action?.type === "DIRECT_LINE/INCOMING_ACTIVITY" &&
-                action?.payload?.activity?.from?.role === "bot" &&
-                action?.payload?.activity?.type !== "typing" &&
-                !action?.meta?.delayed
-              ) {
-                const delayedAction = {
-                  ...action,
-                  meta: { ...(action.meta ?? {}), delayed: true },
-                };
-                window.setTimeout(() => {
-                  dispatch(delayedAction);
-                }, TYPING_DELAY_MS);
-                return;
-              }
-
-              if (
-                action?.type === "DIRECT_LINE/INCOMING_ACTIVITY" &&
-                action?.payload?.activity?.from?.role === "bot" &&
-                action?.payload?.activity?.type !== "typing" &&
-                action?.meta?.delayed
-              ) {
-                clearTypingInterval();
-              }
-
-              return next(action);
-            }
-        );
+        const store = window.WebChat.createStore();
 
         // 발급된 단기 토큰으로 Direct Line에 연결합니다.
         const directLine = window.WebChat.createDirectLine({
@@ -258,6 +188,11 @@ export default function WebChat() {
         /* 사용자 말풍선 여백 */
         .webchat__bubble__content:has(.webchat__text-content--is-plain) {
           padding: 12px 12px;
+        }
+          
+        /* 챗봇 버블 모서리 */
+        .webchat__bubble .webchat__bubble__content {
+          border-radius: 16px !important;
         }
 
         /* 입력창 */
