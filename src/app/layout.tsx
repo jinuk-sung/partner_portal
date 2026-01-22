@@ -4,7 +4,7 @@ import "./globals.css";
 
 const notoSansKr = Noto_Sans_KR({
   variable: "--font-space-grotesk",
-  subsets: ["latin", "korean"],
+  subsets: ["latin"],
 });
 
 const jetBrainsMono = JetBrains_Mono({

@@ -5,20 +5,49 @@ const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS ?? "")
   .map((value) => value.trim())
   .filter(Boolean);
 
+const isAllowedOrigin = (origin: string) => {
+  for (const allowed of ALLOWED_ORIGINS) {
+    if (allowed === origin) {
+      return true;
+    }
+
+    const schemeSplit = allowed.split("://");
+    const hasScheme = schemeSplit.length === 2;
+    const scheme = hasScheme ? schemeSplit[0] : "";
+    const hostPattern = hasScheme ? schemeSplit[1] : allowed;
+
+    if (!hostPattern.startsWith("*.") || (hasScheme && !origin.startsWith(`${scheme}://`))) {
+      continue;
+    }
+
+    try {
+      const { hostname } = new URL(origin);
+      const suffix = hostPattern.slice(1);
+      if (hostname.endsWith(suffix) && hostname.length > suffix.length) {
+        return true;
+      }
+    } catch {
+      return false;
+    }
+  }
+
+  return false;
+};
+
 // 요청 Origin/Referer가 허용 목록에 있는지 확인합니다.
 const resolveAllowedOrigin = (origin: string | null, referer: string | null) => {
   if (ALLOWED_ORIGINS.length === 0) {
     return origin ?? "";
   }
 
-  if (origin && ALLOWED_ORIGINS.includes(origin)) {
+  if (origin && isAllowedOrigin(origin)) {
     return origin;
   }
 
   if (referer) {
     try {
       const refererOrigin = new URL(referer).origin;
-      if (ALLOWED_ORIGINS.includes(refererOrigin)) {
+      if (isAllowedOrigin(refererOrigin)) {
         return refererOrigin;
       }
     } catch {

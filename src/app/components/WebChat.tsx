@@ -77,7 +77,7 @@ export default function WebChat() {
           bubbleBackground: "#E5E5EA",
           bubbleBorderColor: "rgba(60, 60, 67, 0.12)",
           bubbleBorderRadius: 18,
-          bubbleTextColor: "#020101",
+          bubbleTextColor: "#020201",
           bubbleFromUserBackground: "#0A84FF",
           bubbleFromUserBorderColor: "rgba(10, 132, 255, 0.2)",
           bubbleFromUserBorderRadius: 18,
