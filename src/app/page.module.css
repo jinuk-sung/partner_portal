@@ -56,6 +56,7 @@
   border-radius: 0;
   box-shadow: none;
   overflow: hidden;
+  padding-bottom: 16px;
 }
 
 .detailPanel {
