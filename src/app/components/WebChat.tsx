@@ -86,7 +86,28 @@ export default function WebChat() {
           fontWeight: "500",
         };
 
-        const store = window.WebChat.createStore();
+        const store = window.WebChat.createStore(
+          {},
+          () =>
+            (next) =>
+            (action) => {
+              if (action?.type === "DIRECT_LINE/INCOMING_ACTIVITY") {
+                const activity = action?.payload?.activity;
+                const role = activity?.from?.role;
+                if (activity && role !== "user" && activity?.type !== "typing") {
+                  if (typeof activity.text === "string") {
+                    void fetch("/api/log", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ message: activity.text }),
+                    });
+                  }
+                }
+              }
+
+              return next(action);
+            }
+        );
 
         // 발급된 단기 토큰으로 Direct Line에 연결합니다.
         const directLine = window.WebChat.createDirectLine({
@@ -181,7 +202,11 @@ export default function WebChat() {
         }
 
         /* 봇 말풍선 여백 */
-        .webchat__bubble__content:has(.webchat__text-content--is-markdown) {
+        .webchat__bubble__content:has(        .webchat__link-definitions__list-item {
+          display: none !important;
+        }
+
+.webchat__text-content--is-markdown) {
           padding: 28px 36px;
         }
 
