@@ -201,16 +201,19 @@ export default function WebChat() {
           }
         }
 
-        /* 봇 말풍선 여백 */
-        .webchat__bubble__content:has(        .webchat__link-definitions__list-item {
+          /* 봇 말풍선 여백 */
+        .webchat__bubble__content:has(.webchat__text-content--is-markdown) {
+          padding: 18px 32px;
+        }
+
+          /* 참조자료 링크 */
+        .webchat__link-definitions,
+        .webchat__link-definitions__list,
+        .webchat__link-definitions__list-item {
           display: none !important;
         }
 
-.webchat__text-content--is-markdown) {
-          padding: 28px 36px;
-        }
-
-        /* 사용자 말풍선 여백 */
+      /* 사용자 말풍선 여백 */
         .webchat__bubble__content:has(.webchat__text-content--is-plain) {
           padding: 12px 12px;
         }
@@ -292,7 +295,7 @@ export default function WebChat() {
             <span className={styles.statusLabel}>
               {status === "connecting" && "챗봇 연결 중..."}
               {status === "error" && "연결할 수 없습니다."}
-              {status === "idle" && "챗봇 로딩 중..."}
+              {status === "idle" && "챗봇 로딩 중..."}                                                                                            
             </span>
             {errorMessage && (
               <span className={styles.statusHint}>{errorMessage}</span>
